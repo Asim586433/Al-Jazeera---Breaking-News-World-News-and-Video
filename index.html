@@ -30,6 +30,9 @@
             color: var(--text-color);
             line-height: 1.6;
             background-color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         a {
@@ -45,6 +48,7 @@
         img {
             max-width: 100%;
             height: auto;
+            display: block;
         }
 
         .container {
@@ -64,6 +68,9 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
         }
 
         .btn:hover {
@@ -128,6 +135,7 @@
             padding: 10px 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 1rem;
         }
 
         .search-bar button {
@@ -138,6 +146,7 @@
             border: none;
             cursor: pointer;
             color: var(--dark-gray);
+            font-size: 1.2rem;
         }
 
         /* Navigation */
@@ -160,6 +169,7 @@
             padding: 15px 20px;
             font-weight: bold;
             text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
         .main-nav a:hover {
@@ -179,6 +189,7 @@
             color: var(--secondary-color);
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
+            text-transform: none;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -316,6 +327,7 @@
             background-color: var(--secondary-color);
             color: var(--white);
             padding: 40px 0 20px;
+            margin-top: auto;
         }
 
         .footer-content {
@@ -353,6 +365,7 @@
             margin-bottom: 10px;
             border: none;
             border-radius: 4px;
+            font-size: 1rem;
         }
 
         .social-links {
@@ -364,6 +377,12 @@
         .social-links a {
             color: var(--white);
             font-size: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
         }
 
         .footer-bottom {
@@ -564,10 +583,110 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 1rem;
         }
 
         .form-group textarea {
             height: 150px;
+            resize: vertical;
+        }
+
+        /* Video Page Styles */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .video-card {
+            background-color: var(--white);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-gray);
         }
 
         /* Responsive Design */
@@ -576,7 +695,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .news-grid {
+            .news-grid, .video-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
@@ -614,7 +733,7 @@
                 top: 20px;
             }
             
-            .news-grid {
+            .news-grid, .video-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -622,8 +741,12 @@
                 grid-template-columns: 1fr;
             }
             
-            .article-title {
+            .article-title, .page-title, .category-title {
                 font-size: 2rem;
+            }
+            
+            .main-story h2 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -635,51 +758,51 @@
             <div class="container">
                 <div class="date">Saturday, September 27, 2025</div>
                 <div class="header-top-nav">
-                    <a href="#">العربية</a>
-                    <a href="#">Subscribe</a>
-                    <a href="#">Sign In</a>
+                    <a href="#" id="arabic-link">العربية</a>
+                    <a href="#" id="subscribe-link">Subscribe</a>
+                    <a href="#" id="signin-link">Sign In</a>
                 </div>
             </div>
         </div>
         <div class="main-header">
             <div class="container">
                 <div class="logo-section">
-                    <div class="logo">Al <span>Jazeera</span></div>
+                    <a href="index.html" class="logo">Al <span>Jazeera</span></a>
                     <div class="search-bar">
-                        <input type="text" placeholder="Search for news...">
-                        <button>🔍</button>
+                        <input type="text" placeholder="Search for news..." id="search-input">
+                        <button id="search-button">🔍</button>
                     </div>
-                    <button class="hamburger">☰</button>
+                    <button class="hamburger" id="hamburger-menu">☰</button>
                 </div>
             </div>
         </div>
         <nav>
             <div class="container">
-                <ul class="main-nav">
-                    <li><a href="index.html">Home</a></li>
+                <ul class="main-nav" id="main-navigation">
+                    <li><a href="#" data-page="index">Home</a></li>
                     <li class="dropdown">
-                        <a href="#">News</a>
+                        <a href="#" data-page="news">News</a>
                         <ul class="dropdown-menu">
-                            <li><a href="category.html?cat=world">World</a></li>
-                            <li><a href="category.html?cat=politics">Politics</a></li>
-                            <li><a href="category.html?cat=business">Business</a></li>
-                            <li><a href="category.html?cat=tech">Technology</a></li>
-                            <li><a href="category.html?cat=science">Science</a></li>
+                            <li><a href="#" data-page="world">World</a></li>
+                            <li><a href="#" data-page="politics">Politics</a></li>
+                            <li><a href="#" data-page="business">Business</a></li>
+                            <li><a href="#" data-page="technology">Technology</a></li>
+                            <li><a href="#" data-page="science">Science</a></li>
                         </ul>
                     </li>
-                    <li><a href="category.html?cat=opinion">Opinion</a></li>
-                    <li><a href="category.html?cat=features">Features</a></li>
-                    <li><a href="category.html?cat=video">Video</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#" data-page="opinion">Opinion</a></li>
+                    <li><a href="#" data-page="features">Features</a></li>
+                    <li><a href="#" data-page="video">Video</a></li>
+                    <li><a href="#" data-page="about">About</a></li>
+                    <li><a href="#" data-page="contact">Contact</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Homepage Content -->
+    <!-- Main Content - Dynamic based on current page -->
+    <main id="main-content">
+        <!-- Homepage Content (default) -->
         <section class="hero">
             <div class="container">
                 <div class="hero-grid">
@@ -688,7 +811,7 @@
                         <div class="main-story-content">
                             <h2>Global Summit Addresses Climate Crisis as Extreme Weather Events Increase</h2>
                             <p>World leaders gather to discuss urgent measures as new report shows accelerating climate change impacts.</p>
-                            <a href="article.html" class="btn">Read Full Story</a>
+                            <a href="#" class="btn" data-article="1">Read Full Story</a>
                         </div>
                     </div>
                     <div class="side-stories">
@@ -730,7 +853,7 @@
                             <span>Sep 26, 2025</span>
                         </div>
                         <p>Surprising outcomes in recent elections point to changing voter priorities and emerging political forces.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="2">Read More</a>
                     </div>
                 </article>
                 <article class="news-card">
@@ -742,7 +865,7 @@
                             <span>Sep 25, 2025</span>
                         </div>
                         <p>Industry leader commits to carbon-neutral operations by 2030, setting new standard for corporate responsibility.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="3">Read More</a>
                     </div>
                 </article>
                 <article class="news-card">
@@ -754,7 +877,7 @@
                             <span>Sep 24, 2025</span>
                         </div>
                         <p>Revolutionary technology could save thousands of lives by providing early warnings for earthquakes and floods.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="4">Read More</a>
                     </div>
                 </article>
             </div>
@@ -770,7 +893,7 @@
                             <span>Sep 23, 2025</span>
                         </div>
                         <p>Comprehensive plan aims to balance humanitarian concerns with security needs amid ongoing migration challenges.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="5">Read More</a>
                     </div>
                 </article>
                 <article class="news-card">
@@ -782,7 +905,7 @@
                             <span>Sep 22, 2025</span>
                         </div>
                         <p>Regional economies show resilience with strong performance in technology and manufacturing sectors.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="6">Read More</a>
                     </div>
                 </article>
                 <article class="news-card">
@@ -794,7 +917,7 @@
                             <span>Sep 21, 2025</span>
                         </div>
                         <p>Celebrations erupt as warring factions commit to lasting peace and democratic transition.</p>
-                        <a href="article.html" class="btn">Read More</a>
+                        <a href="#" class="btn" data-article="7">Read More</a>
                     </div>
                 </article>
             </div>
@@ -809,37 +932,37 @@
                     <h3>About Al Jazeera</h3>
                     <p>Al Jazeera is a leading global news network providing comprehensive coverage of world events, with a focus on the Middle East and beyond.</p>
                     <div class="social-links">
-                        <a href="#">📘</a>
-                        <a href="#">🐦</a>
-                        <a href="#">📷</a>
-                        <a href="#">📹</a>
+                        <a href="https://facebook.com" target="_blank" title="Facebook">📘</a>
+                        <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+                        <a href="https://instagram.com" target="_blank" title="Instagram">📷</a>
+                        <a href="https://youtube.com" target="_blank" title="YouTube">📹</a>
                     </div>
                 </div>
                 <div class="footer-section">
                     <h3>Categories</h3>
                     <ul class="footer-links">
-                        <li><a href="category.html?cat=world">World News</a></li>
-                        <li><a href="category.html?cat=politics">Politics</a></li>
-                        <li><a href="category.html?cat=business">Business & Economy</a></li>
-                        <li><a href="category.html?cat=tech">Technology</a></li>
-                        <li><a href="category.html?cat=science">Science & Environment</a></li>
+                        <li><a href="#" data-page="world">World News</a></li>
+                        <li><a href="#" data-page="politics">Politics</a></li>
+                        <li><a href="#" data-page="business">Business & Economy</a></li>
+                        <li><a href="#" data-page="technology">Technology</a></li>
+                        <li><a href="#" data-page="science">Science & Environment</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Legal</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">Accessibility Statement</a></li>
-                        <li><a href="#">Code of Ethics</a></li>
+                        <li><a href="#" id="terms-link">Terms of Service</a></li>
+                        <li><a href="#" id="privacy-link">Privacy Policy</a></li>
+                        <li><a href="#" id="cookie-link">Cookie Policy</a></li>
+                        <li><a href="#" id="accessibility-link">Accessibility Statement</a></li>
+                        <li><a href="#" id="ethics-link">Code of Ethics</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Newsletter</h3>
                     <p>Subscribe to our newsletter for daily updates and exclusive content.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email address" required>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="Your email address" required id="newsletter-email">
                         <button type="submit" class="btn">Subscribe</button>
                     </form>
                 </div>
@@ -850,28 +973,683 @@
         </div>
     </footer>
 
+    <!-- Modal for legal pages -->
+    <div id="legal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2 id="modal-title">Modal Title</h2>
+            <div id="modal-content">
+                <p>Modal content will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-video-modal">&times;</span>
+            <div id="video-player">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <h3 id="video-modal-title">Video Title</h3>
+            <p id="video-modal-description">Video description will appear here.</p>
+        </div>
+    </div>
+
     <script>
-        // Mobile menu toggle
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            document.querySelector('.main-nav').classList.toggle('active');
-        });
-
-        // Simple search functionality
-        document.querySelector('.search-bar button').addEventListener('click', function() {
-            const searchTerm = document.querySelector('.search-bar input').value;
-            if (searchTerm.trim() !== '') {
-                alert('Searching for: ' + searchTerm);
-                // In a real implementation, this would redirect to search results
+        // Page content for different sections
+        const pageContent = {
+            'index': {
+                title: 'Al Jazeera - Breaking News, World News and Video',
+                hero: true,
+                content: 'home'
+            },
+            'news': {
+                title: 'News - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'News',
+                description: 'Latest news from around the world covering politics, business, technology, and more.'
+            },
+            'world': {
+                title: 'World News - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'World News',
+                description: 'Comprehensive coverage of global events, international relations, and world affairs.'
+            },
+            'politics': {
+                title: 'Politics - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Politics',
+                description: 'In-depth analysis of political developments, elections, and government policies worldwide.'
+            },
+            'business': {
+                title: 'Business & Economy - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Business & Economy',
+                description: 'Business news, market updates, economic analysis, and corporate developments.'
+            },
+            'technology': {
+                title: 'Technology - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Technology',
+                description: 'Latest tech innovations, digital trends, and the impact of technology on society.'
+            },
+            'science': {
+                title: 'Science & Environment - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Science & Environment',
+                description: 'Scientific discoveries, environmental issues, and climate change developments.'
+            },
+            'opinion': {
+                title: 'Opinion - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Opinion',
+                description: 'Expert analysis, commentary, and diverse perspectives on current events.'
+            },
+            'features': {
+                title: 'Features - Al Jazeera',
+                hero: false,
+                content: 'category',
+                category: 'Features',
+                description: 'In-depth features, investigative journalism, and long-form stories.'
+            },
+            'video': {
+                title: 'Video - Al Jazeera',
+                hero: false,
+                content: 'video',
+                category: 'Video',
+                description: 'Exclusive video content, documentaries, and news reports.'
+            },
+            'about': {
+                title: 'About Us - Al Jazeera',
+                hero: false,
+                content: 'page',
+                pageTitle: 'About Al Jazeera'
+            },
+            'contact': {
+                title: 'Contact Us - Al Jazeera',
+                hero: false,
+                content: 'page',
+                pageTitle: 'Contact Al Jazeera'
+            },
+            'article': {
+                title: 'Article - Al Jazeera',
+                hero: false,
+                content: 'article'
             }
+        };
+
+        // Legal page content
+        const legalContent = {
+            'terms': {
+                title: 'Terms of Service',
+                content: `<p>These Terms of Service govern your use of the Al Jazeera website and services. By accessing or using our services, you agree to be bound by these terms.</p>
+                <h3>1. Use of Our Services</h3>
+                <p>You may use our services only as permitted by law. We may suspend or stop providing our services to you if you do not comply with our terms or policies.</p>
+                <h3>2. Your Content in Our Services</h3>
+                <p>When you upload, submit, store, send or receive content to or through our services, you give Al Jazeera a worldwide license to use, host, store, reproduce, modify, create derivative works, communicate, publish, publicly perform, publicly display and distribute such content.</p>`
+            },
+            'privacy': {
+                title: 'Privacy Policy',
+                content: `<p>Your privacy is important to us. This Privacy Policy explains how Al Jazeera collects, uses, and shares information about you when you use our websites, mobile applications, and other online services.</p>
+                <h3>Information We Collect</h3>
+                <p>We collect information you provide directly to us, such as when you create an account, subscribe to our newsletter, or contact us. This may include your name, email address, and any other information you choose to provide.</p>
+                <h3>How We Use Your Information</h3>
+                <p>We use the information we collect to provide, maintain, and improve our services, to develop new services, and to protect Al Jazeera and our users.</p>`
+            },
+            'cookie': {
+                title: 'Cookie Policy',
+                content: `<p>This Cookie Policy explains how Al Jazeera uses cookies and similar technologies to recognize you when you visit our websites.</p>
+                <h3>What Are Cookies?</h3>
+                <p>Cookies are small data files that are placed on your computer or mobile device when you visit a website. Cookies are widely used by website owners to make their websites work, or to work more efficiently, as well as to provide reporting information.</p>
+                <h3>How We Use Cookies</h3>
+                <p>We use first-party and third-party cookies for several reasons. Some cookies are required for technical reasons for our websites to operate, and we refer to these as "essential" or "strictly necessary" cookies.</p>`
+            },
+            'accessibility': {
+                title: 'Accessibility Statement',
+                content: `<p>Al Jazeera is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards.</p>
+                <h3>Conformance Status</h3>
+                <p>We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA. These guidelines explain how to make web content more accessible for people with disabilities.</p>
+                <h3>Feedback</h3>
+                <p>We welcome your feedback on the accessibility of Al Jazeera's digital platforms. Please let us know if you encounter accessibility barriers.</p>`
+            },
+            'ethics': {
+                title: 'Code of Ethics',
+                content: `<p>Al Jazeera's Code of Ethics outlines the principles and standards that guide our journalism and operations.</p>
+                <h3>Accuracy and Fairness</h3>
+                <p>We strive for accuracy in all our reporting. We verify information before publication and correct errors promptly and transparently.</p>
+                <h3>Independence and Integrity</h3>
+                <p>Our journalists maintain independence from those they cover and avoid conflicts of interest that could compromise the integrity of their reporting.</p>
+                <h3>Accountability</h3>
+                <p>We are accountable to our audience and welcome feedback, corrections, and criticism of our work.</p>`
+            }
+        };
+
+        // Current page (simulated based on URL)
+        let currentPage = 'index';
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up navigation
+            setupNavigation();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update page content based on current page
+            updatePageContent();
         });
 
-        // Newsletter form submission
-        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            alert('Thank you for subscribing with: ' + email);
-            this.reset();
-        });
+        function setupNavigation() {
+            // Extract page from URL (simulated)
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page') || 'index';
+            currentPage = page;
+            
+            // Update page title
+            document.title = pageContent[page]?.title || 'Al Jazeera';
+            
+            // Update active nav item
+            const navItems = document.querySelectorAll('.main-nav a');
+            navItems.forEach(item => {
+                if (item.getAttribute('data-page') === page) {
+                    item.style.backgroundColor = 'var(--primary-color)';
+                }
+            });
+        }
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('hamburger-menu').addEventListener('click', function() {
+                document.getElementById('main-navigation').classList.toggle('active');
+            });
+
+            // Search functionality
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Newsletter form
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('newsletter-email').value;
+                if (email) {
+                    alert(`Thank you for subscribing with: ${email}`);
+                    this.reset();
+                }
+            });
+
+            // Legal links
+            document.getElementById('terms-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLegalModal('terms');
+            });
+            
+            document.getElementById('privacy-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLegalModal('privacy');
+            });
+            
+            document.getElementById('cookie-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLegalModal('cookie');
+            });
+            
+            document.getElementById('accessibility-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLegalModal('accessibility');
+            });
+            
+            document.getElementById('ethics-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLegalModal('ethics');
+            });
+
+            // Close modals
+            document.getElementById('close-modal').addEventListener('click', function() {
+                document.getElementById('legal-modal').style.display = 'none';
+            });
+            
+            document.getElementById('close-video-modal').addEventListener('click', function() {
+                document.getElementById('video-modal').style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === document.getElementById('legal-modal')) {
+                    document.getElementById('legal-modal').style.display = 'none';
+                }
+                if (e.target === document.getElementById('video-modal')) {
+                    document.getElementById('video-modal').style.display = 'none';
+                }
+            });
+
+            // Subscribe and Sign In links
+            document.getElementById('subscribe-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Subscription page would open here. You would be redirected to a subscription form.');
+            });
+            
+            document.getElementById('signin-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Sign in page would open here. You would be redirected to a login form.');
+            });
+            
+            document.getElementById('arabic-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Switching to Arabic version of the website.');
+            });
+
+            // Navigation links
+            const navLinks = document.querySelectorAll('.main-nav a, .footer-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page) {
+                        navigateToPage(page);
+                    }
+                });
+            });
+
+            // Article links
+            const articleLinks = document.querySelectorAll('[data-article]');
+            articleLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const articleId = this.getAttribute('data-article');
+                    showArticle(articleId);
+                });
+            });
+
+            // Video cards
+            const videoCards = document.querySelectorAll('.video-card');
+            videoCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    showVideoModal('Sample Video', 'This is a sample video description.');
+                });
+            });
+
+            // Contact form
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your message. We will get back to you soon.');
+                    this.reset();
+                });
+            }
+
+            // Pagination links
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!this.classList.contains('active')) {
+                        paginationLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        alert(`Loading page ${this.textContent}...`);
+                    }
+                });
+            });
+        }
+
+        function navigateToPage(page) {
+            currentPage = page;
+            document.title = pageContent[page]?.title || 'Al Jazeera';
+            updatePageContent();
+            
+            // Update URL without reloading (simulated)
+            window.history.pushState({}, '', `?page=${page}`);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Update active nav item
+            const navItems = document.querySelectorAll('.main-nav a');
+            navItems.forEach(item => {
+                item.style.backgroundColor = '';
+                if (item.getAttribute('data-page') === page) {
+                    item.style.backgroundColor = 'var(--primary-color)';
+                }
+            });
+            
+            // Close mobile menu if open
+            document.getElementById('main-navigation').classList.remove('active');
+        }
+
+        function updatePageContent() {
+            const content = pageContent[currentPage];
+            if (!content) return;
+            
+            const mainContent = document.getElementById('main-content');
+            
+            if (content.content === 'category') {
+                mainContent.innerHTML = generateCategoryPage(content.category, content.description);
+            } else if (content.content === 'video') {
+                mainContent.innerHTML = generateVideoPage();
+            } else if (content.content === 'page') {
+                mainContent.innerHTML = generateStandardPage(content.pageTitle);
+            } else if (content.content === 'article') {
+                mainContent.innerHTML = generateArticlePage();
+            } else {
+                // Homepage content is already in the HTML
+                return;
+            }
+            
+            // Re-attach event listeners for new content
+            setTimeout(() => {
+                setupEventListeners();
+            }, 0);
+        }
+
+        function generateCategoryPage(category, description) {
+            return `
+                <section class="category-header">
+                    <div class="container">
+                        <h1 class="category-title">${category}</h1>
+                        <p class="category-description">${description}</p>
+                    </div>
+                </section>
+                <div class="container">
+                    <div class="news-grid">
+                        ${generateNewsItems(6, category)}
+                    </div>
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">Next →</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateVideoPage() {
+            return `
+                <section class="category-header">
+                    <div class="container">
+                        <h1 class="category-title">Video</h1>
+                        <p class="category-description">Exclusive video content, documentaries, and news reports from Al Jazeera.</p>
+                    </div>
+                </section>
+                <div class="container">
+                    <div class="video-grid">
+                        ${generateVideoItems(6)}
+                    </div>
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">Next →</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateStandardPage(title) {
+            if (title === 'About Al Jazeera') {
+                return `
+                    <section class="page-header">
+                        <div class="container">
+                            <h1 class="page-title">${title}</h1>
+                        </div>
+                    </section>
+                    <div class="page-content">
+                        <p>Al Jazeera is an independent news organization funded in part by the State of Qatar. Since its launch in 1996, Al Jazeera has grown into one of the world's most influential news networks, with bureaus and correspondents covering the globe.</p>
+                        <p>Our mission is to provide independent, impartial news for an international audience and to offer a voice to a diversity of perspectives from under-reported regions.</p>
+                        <p>Al Jazeera is committed to the core principles of journalism: truth, accuracy, independence, fairness, and accountability. Our Code of Ethics guides our journalists in their mission to report the news with integrity and without fear or favor.</p>
+                        <h2>Our Network</h2>
+                        <p>Al Jazeera Media Network includes:</p>
+                        <ul>
+                            <li>Al Jazeera Arabic</li>
+                            <li>Al Jazeera English</li>
+                            <li>Al Jazeera Mubasher (Live)</li>
+                            <li>Al Jazeera Documentary</li>
+                            <li>Al Jazeera Balkans</li>
+                            <li>Al Jazeera Turk</li>
+                        </ul>
+                        <p>With over 70 bureaus around the world, we are dedicated to telling the human story and providing voices to those often unheard in mainstream media.</p>
+                    </div>
+                `;
+            } else if (title === 'Contact Al Jazeera') {
+                return `
+                    <section class="page-header">
+                        <div class="container">
+                            <h1 class="page-title">${title}</h1>
+                        </div>
+                    </section>
+                    <div class="page-content">
+                        <p>We welcome your feedback, story tips, and inquiries. Please use the form below to contact us, or reach out through one of the methods listed.</p>
+                        
+                        <div class="contact-form">
+                            <form id="contact-form">
+                                <div class="form-group">
+                                    <label for="name">Your Name</label>
+                                    <input type="text" id="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <input type="text" id="subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" required></textarea>
+                                </div>
+                                <button type="submit" class="btn">Send Message</button>
+                            </form>
+                        </div>
+                        
+                        <h2>Other Contact Methods</h2>
+                        <p><strong>General Inquiries:</strong> info@aljazeera.com</p>
+                        <p><strong>News Tips:</strong> tips@aljazeera.com</p>
+                        <p><strong>Press Inquiries:</strong> press@aljazeera.com</p>
+                        <p><strong>Address:</strong> Al Jazeera Media Network, PO Box 23127, Doha, Qatar</p>
+                    </div>
+                `;
+            }
+        }
+
+        function showArticle(articleId) {
+            navigateToPage('article');
+            // In a real implementation, this would fetch the article content based on ID
+            // For this demo, we'll just show a generic article
+        }
+
+        function generateArticlePage() {
+            const articles = {
+                '1': {
+                    title: 'Global Summit Addresses Climate Crisis as Extreme Weather Events Increase',
+                    author: 'Environmental Desk',
+                    date: 'September 27, 2025',
+                    category: 'Environment',
+                    image: 'https://placehold.co/800x450/8B1A1A/FFFFFF?text=Climate+Summit'
+                },
+                '2': {
+                    title: 'Election Results Signal Shift in Regional Political Landscape',
+                    author: 'Political Analysis Team',
+                    date: 'September 26, 2025',
+                    category: 'Politics',
+                    image: 'https://placehold.co/800x450/333/FFFFFF?text=Election+Results'
+                },
+                '3': {
+                    title: 'Major Corporation Announces Plans for Sustainable Operations',
+                    author: 'Business Correspondent',
+                    date: 'September 25, 2025',
+                    category: 'Business',
+                    image: 'https://placehold.co/800x450/8B1A1A/FFFFFF?text=Sustainable+Business'
+                }
+            };
+            
+            // For simplicity, we'll use article 1 for all articles in this demo
+            const article = articles['1'];
+            
+            return `
+                <article>
+                    <div class="article-header">
+                        <div class="container">
+                            <div class="article-meta">
+                                <span>By ${article.author}</span>
+                                <span>${article.date}</span>
+                            </div>
+                            <h1 class="article-title">${article.title}</h1>
+                            <div class="article-meta">
+                                <span>Category: ${article.category}</span>
+                                <span>Share: 📘 🐦 📧</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="article-content">
+                            <figure class="article-image">
+                                <img src="${article.image}" alt="${article.title}">
+                                <figcaption>World leaders gather at the Global Climate Summit to address urgent environmental challenges. (Photo: Reuters)</figcaption>
+                            </figure>
+                            
+                            <p>In a landmark gathering of world leaders, the Global Climate Summit convened today to address the escalating climate crisis amid reports of increasing extreme weather events worldwide. The summit comes as scientists warn that the window for meaningful action is rapidly closing.</p>
+                            
+                            <p>The opening session featured stark warnings from climate scientists who presented new data showing accelerated ice melt, rising sea levels, and more frequent extreme weather patterns. "We are at a critical juncture," said Dr. Elena Martinez, lead author of the latest IPCC report. "The decisions made in the next few years will determine the planet's trajectory for centuries to come."</p>
+                            
+                            <h2>New Commitments Announced</h2>
+                            
+                            <p>Several nations announced enhanced commitments to reduce greenhouse gas emissions, with the European Union pledging to achieve net-zero emissions by 2040, a full decade ahead of its previous target. "We cannot afford to wait," stated the EU Climate Commissioner. "The science is clear, and our citizens are demanding action."</p>
+                            
+                            <div class="embedded-video">
+                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                            </div>
+                            
+                            <p>Developing nations emphasized the need for financial support from wealthier countries to transition to clean energy and adapt to climate impacts already underway. The Climate Justice Fund, a key topic of discussion, aims to provide $100 billion annually to vulnerable nations.</p>
+                            
+                            <blockquote>
+                                "This is not just an environmental issue; it is a matter of global security, economic stability, and intergenerational justice."
+                                <cite>— Summit Chairperson</cite>
+                            </blockquote>
+                            
+                            <h2>Industry Response</h2>
+                            
+                            <p>Major corporations from the energy, transportation, and manufacturing sectors announced new sustainability initiatives, with several forming a coalition to accelerate the development of carbon capture technologies. However, climate activists outside the summit venue protested what they called "insufficient action" and "greenwashing" by some participants.</p>
+                            
+                            <p>The summit will continue for three days, with working groups focusing on specific areas including renewable energy transition, climate adaptation strategies, and international cooperation mechanisms.</p>
+                            
+                            <div class="author-info">
+                                <h3>About the Author</h3>
+                                <p>${article.author} is part of Al Jazeera's dedicated team covering environmental issues and climate policy. With decades of combined experience, our environmental desk provides in-depth analysis of the most pressing planetary challenges.</p>
+                            </div>
+                            
+                            <div class="comments-section">
+                                <h2>Comments (3)</h2>
+                                <div class="comment">
+                                    <div class="comment-header">
+                                        <span>John Doe</span>
+                                        <span>September 27, 2025</span>
+                                    </div>
+                                    <p>Finally, world leaders are taking this seriously. But will these commitments translate to real action?</p>
+                                </div>
+                                <div class="comment">
+                                    <div class="comment-header">
+                                        <span>Sarah Chen</span>
+                                        <span>September 27, 2025</span>
+                                    </div>
+                                    <p>The $100 billion fund is a step in the right direction, but it's not nearly enough given the scale of the problem.</p>
+                                </div>
+                                <div class="comment">
+                                    <div class="comment-header">
+                                        <span>Miguel Rodriguez</span>
+                                        <span>September 26, 2025</span>
+                                    </div>
+                                    <p>We need binding agreements with real consequences for non-compliance. Voluntary pledges haven't worked so far.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function generateNewsItems(count, category) {
+            let items = '';
+            for (let i = 1; i <= count; i++) {
+                items += `
+                    <article class="news-card">
+                        <img src="https://placehold.co/400x200/8B1A1A/FFFFFF?text=${encodeURIComponent(category)}+News+${i}" alt="${category} News ${i}">
+                        <div class="news-card-content">
+                            <h3>${category} Headline ${i}: Important Development in This Category</h3>
+                            <div class="news-meta">
+                                <span>By Correspondent ${i}</span>
+                                <span>Sep ${28-i}, 2025</span>
+                            </div>
+                            <p>This is a summary of an important news story in the ${category} category that would appear on this page.</p>
+                            <a href="#" class="btn" data-article="${i}">Read More</a>
+                        </div>
+                    </article>
+                `;
+            }
+            return items;
+        }
+
+        function generateVideoItems(count) {
+            let items = '';
+            for (let i = 1; i <= count; i++) {
+                items += `
+                    <article class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://placehold.co/400x225/333/FFFFFF?text=Video+${i}" alt="Video ${i}">
+                            <div class="play-button">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <h3>Video Report ${i}: Important News Coverage</h3>
+                            <div class="video-meta">
+                                <span>Al Jazeera</span>
+                                <span>15:${i}0</span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+            return items;
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (searchTerm) {
+                alert(`Searching for: "${searchTerm}"\n\nIn a real implementation, this would show search results.`);
+                // In a real implementation, this would redirect to search results page
+                // or filter content based on the search term
+            } else {
+                alert('Please enter a search term.');
+            }
+        }
+
+        function showLegalModal(legalType) {
+            const content = legalContent[legalType];
+            if (!content) return;
+            
+            document.getElementById('modal-title').textContent = content.title;
+            document.getElementById('modal-content').innerHTML = content.content;
+            document.getElementById('legal-modal').style.display = 'block';
+        }
+
+        function showVideoModal(title, description) {
+            document.getElementById('video-modal-title').textContent = title;
+            document.getElementById('video-modal-description').textContent = description;
+            document.getElementById('video-modal').style.display = 'block';
+        }
     </script>
 </body>
 </html>
